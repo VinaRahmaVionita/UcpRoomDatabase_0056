@@ -17,4 +17,10 @@ interface BarangDao {
     @Query("SELECT * FROM Barang WHERE id = :id")
     fun getBarang(id: String): Flow<Barang>
 
+    @Insert
+    suspend fun insertBarang(
+        barang: Barang
+    )
+
+
 }
