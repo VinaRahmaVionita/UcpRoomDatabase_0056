@@ -4,7 +4,12 @@ import com.example.ucp_2.data.entity.Suplier
 import kotlinx.coroutines.flow.Flow
 
 interface RepositorySpl {
-    suspend fun insertSpl(suplier: Suplier)
+
+    //insert
+    suspend fun insertSpl(
+        suplier: Suplier
+    )
+    //read
     fun getAllSpl(): Flow<List<Suplier>>
     fun getSpl(id: String): Flow<Suplier>
 }
