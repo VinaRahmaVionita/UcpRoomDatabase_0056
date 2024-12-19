@@ -27,4 +27,8 @@ interface BarangDao {
         barang: Barang
     )
 
+    @Update
+    suspend fun updateBarang(
+        barang: Barang
+    )
 }
