@@ -22,5 +22,9 @@ interface BarangDao {
         barang: Barang
     )
 
+    @Delete
+    suspend fun deleteBarang(
+        barang: Barang
+    )
 
 }
