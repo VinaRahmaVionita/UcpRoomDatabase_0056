@@ -14,5 +14,8 @@ interface SuplierDao {
     @Query("SELECT * FROM Suplier WHERE id = :id")
     fun getSuplier(id: String): Flow<Suplier>
 
-
+    @Insert
+    suspend fun insertSuplier(
+        suplier: Suplier
+    )
 }
