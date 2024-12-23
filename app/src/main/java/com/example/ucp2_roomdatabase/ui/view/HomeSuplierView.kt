@@ -46,6 +46,60 @@ import com.example.ucp2_roomdatabase.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch
 
 
+
+@Composable
+fun HomeBodySuplierView(
+    homeUiStateSpl: HomeUiStateSpl,
+    onClick: (String) -> Unit = { },
+    modifier: Modifier = Modifier
+) {
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+    when {
+        homeUiStateSpl.isLoading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+
+        homeUiStateSpl.isError -> {
+            LaunchedEffect(homeUiStateSpl.errorMessage) {
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar(homeUiStateSpl.errorMessage)
+                }
+            }
+        }
+
+        homeUiStateSpl.listSuplier.isEmpty() -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Tidak Ada Data Suplier",
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(16.dp),
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+
+        else -> {
+            ListSuplier(
+                listSuplier = homeUiStateSpl.listSuplier,
+                onClick = {
+                    onClick(it)
+                    println(it)
+                },
+                modifier = modifier
+            )
+        }
+    }
+}
+
 @Composable
 fun ListSuplier(
     listSuplier: List<Suplier>,
