@@ -16,6 +16,42 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 
 
+//untuk mengelola status dan logika aplikasi yang berkaitan dengan tampilan detail data suplier
+class DetailSplViewModel (
+    savedStateHandle: SavedStateHandle,
+    private val repositorySpl: RepositorySpl,
+) : ViewModel() {
+    private val _idSpl: String = checkNotNull(savedStateHandle[DestinasiDetailSpl.idSpl])
+    val detailUiStateSpl: StateFlow<DetailUiStateSpl> = repositorySpl.getSpl(_idSpl)
+        .filterNotNull()
+        .map {
+            DetailUiStateSpl(
+                detailUiEventSpl = it.toDetailUiEventSpl(),
+                isLoading = false,
+            )
+        }
+        .onStart {
+            emit(DetailUiStateSpl(isLoading = true))
+            delay(600)
+        }
+        .catch {
+            emit(
+                DetailUiStateSpl(
+                    isLoading = false,
+                    isError = true,
+                    errorMessage = it.message?: "Terjadi Kesalahan"
+                )
+            )
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(2000),
+            initialValue = DetailUiStateSpl(
+                isLoading = true,
+            )
+        )
+}
+
 //data class yang menggambarkan status UI saat menampilkan detail suplier
 data class DetailUiStateSpl(
     val detailUiEventSpl: SuplierEvent = SuplierEvent(),
