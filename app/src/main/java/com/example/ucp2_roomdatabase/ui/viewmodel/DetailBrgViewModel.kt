@@ -17,7 +17,49 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 
-
+//untuk mengelola status dan logika aplikasi yang berkaitan dengan tampilan detail barang
+class DetailBrgViewModel(
+    savedStateHandle: SavedStateHandle,
+    private val repositoryBrg: RepositoryBrg
+) : ViewModel() {
+    private val _idBrg: String = checkNotNull(savedStateHandle[DestinasiDetailBrg.idBrg])
+    val detailUiStateBrg: StateFlow<DetailUiStateBrg> = repositoryBrg.getBrg(_idBrg)
+        .filterNotNull()
+        .map {
+            DetailUiStateBrg(
+                detailUiEventBrg = it.toDetailUiEvent(),
+                isLoading = false,
+            )
+        }
+        .onStart {
+            emit(DetailUiStateBrg(isLoading = true))
+            delay(600)
+        }
+        .catch {
+            emit(
+                DetailUiStateBrg(
+                    isLoading = false,
+                    isError = true,
+                    errorMessage = it.message?: "Terjadi Kesalahan"
+                )
+            )
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(2000),
+            initialValue = DetailUiStateBrg(
+                isLoading = true
+            )
+        )
+    //fungsi untuk menghapus barang
+    fun deleteBrg(){
+        detailUiStateBrg.value.detailUiEventBrg.toBarangEntity().let {
+            viewModelScope.launch {
+                repositoryBrg.deleteBrg(it)
+            }
+        }
+    }
+}
 
 //data class yang menggambarkan status UI saat menampilkan detail barang
 data class DetailUiStateBrg(
