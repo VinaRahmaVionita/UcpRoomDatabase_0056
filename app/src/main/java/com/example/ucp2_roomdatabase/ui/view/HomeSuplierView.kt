@@ -47,6 +47,24 @@ import kotlinx.coroutines.launch
 
 
 @Composable
+fun ListSuplier(
+    listSuplier: List<Suplier>,
+    modifier: Modifier = Modifier,
+    onClick: (String) -> Unit = { }
+) {
+    LazyColumn(
+        modifier = modifier
+    ) {
+        items(listSuplier) { spl ->
+            CardSuplier(
+                suplier = spl,
+                onClick = { onClick(spl.idSpl) }
+            )
+        }
+    }
+}
+
+@Composable
 fun CardSuplier(
     suplier: Suplier,
     modifier: Modifier = Modifier,
