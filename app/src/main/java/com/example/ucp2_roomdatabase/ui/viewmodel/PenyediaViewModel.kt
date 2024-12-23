@@ -60,3 +60,5 @@ object PenyediaViewModel {
     }
 }
 
+//untuk mengakses aplikasi dan dependensinya, seperti containerApp, yang menyediakan repository
+fun CreationExtras.TokoApp(): TokoApp = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as TokoApp)
