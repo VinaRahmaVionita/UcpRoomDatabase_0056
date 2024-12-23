@@ -16,5 +16,20 @@ abstract class TokoDatabase : RoomDatabase() {
     abstract fun barangDao(): BarangDao
     abstract fun suplierDao(): SuplierDao
 
+    companion object {
+        @Volatile
+        private var Instance: TokoDatabase? = null
 
+        fun getDatabase(context: Context): TokoDatabase {
+            return (Instance ?: synchronized(this) {
+                Room.databaseBuilder(
+                    context,
+                    TokoDatabase::class.java,
+                    "TokoDatabase"
+
+                )
+                    .build().also { Instance = it }
+            })
+        }
+    }
 }
