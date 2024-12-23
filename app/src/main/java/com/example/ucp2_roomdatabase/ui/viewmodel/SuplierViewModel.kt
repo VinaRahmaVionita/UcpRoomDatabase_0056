@@ -11,6 +11,18 @@ import kotlinx.coroutines.launch
 
 
 
+//untuk menghandle atau memberikan nilai validasi apakah benar atau salah
+data class FormErrorStateSpl(
+    val idSpl: String? = null,
+    val nama: String? = null,
+    val kontak: String? = null,
+    val alamat: String? = null
+){
+    fun isValid(): Boolean {
+        return idSpl == null && nama == null && kontak == null && alamat == null
+    }
+}
+
 //menyimpan input form ke dalam entity
 fun SuplierEvent.toSuplierEntity(): Suplier = Suplier (
     idSpl = idSpl,
