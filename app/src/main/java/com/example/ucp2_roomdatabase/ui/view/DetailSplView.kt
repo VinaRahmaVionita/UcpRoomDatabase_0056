@@ -32,6 +32,47 @@ import com.example.ucp2_roomdatabase.ui.viewmodel.toSuplierEntity
 
 
 @Composable
+fun ItemDetailSpl(
+    modifier: Modifier = Modifier,
+    suplier: Suplier
+){
+    Card (
+        modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        )
+    ){
+        Column (
+            modifier = Modifier.padding(16.dp)
+        ){
+
+            ComponentDetailSpl(
+                judul = "ID Suplier",
+                isinya = suplier.idSpl
+            )
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailSpl(
+                judul = "Nama",
+                isinya = suplier.nama
+            )
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailSpl(
+                judul = "Alamat",
+                isinya = suplier.alamat
+            )
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailSpl(
+                judul = "Kontak",
+                isinya = suplier.kontak
+            )
+            Spacer(modifier = Modifier.padding(4.dp))
+        }
+    }
+}
+
+//menampilkan pasangan label (judul) dan nilai (isinya)
+@Composable
 fun ComponentDetailSpl(
     modifier: Modifier = Modifier,
     judul: String,
