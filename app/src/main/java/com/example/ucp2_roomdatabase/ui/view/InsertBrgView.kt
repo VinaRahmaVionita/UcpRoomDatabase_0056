@@ -44,7 +44,60 @@ import com.example.ucp2_roomdatabase.ui.viewmodel.FormErrorStateBrg
 import com.example.ucp2_roomdatabase.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch
 
+object DestinasiInsertBrg : AlamatNavigasi {
+    override val route: String = "insert_brg"
+}
 
+@Composable
+fun InsertBrgView(
+    onBack: () -> Unit,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: BarangViewModel = viewModel(factory = PenyediaViewModel.Factory)
+) {
+    val uiState = viewModel.uiState
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(uiState.snackBarMessage){
+        uiState.snackBarMessage?.let {
+            message -> coroutineScope.launch {
+                snackbarHostState.showSnackbar(message)
+                viewModel.resetSnackBarMessage()
+            }
+        }
+    }
+
+    Scaffold(
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) { padding ->
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+        ){
+            TopAppBar(
+                onBack = onBack,
+                showBackButton = true,
+                judul = "Tambah Barang",
+                modifier = modifier
+            )
+            InsertBodyBrg(
+                uiState = uiState,
+                onValueChange = { updatedEvent ->
+                    viewModel.updateStateBrg(updatedEvent)
+                },
+                onClick = {
+                    viewModel.saveBarang()
+                    onNavigate()
+                }
+            )
+        }
+
+    }
+}
 
 @Composable
 fun InsertBodyBrg(
