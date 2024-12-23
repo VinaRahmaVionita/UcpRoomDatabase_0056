@@ -10,6 +10,12 @@ import com.example.ucp2_roomdatabase.data.entity.Barang
 import kotlinx.coroutines.launch
 
 
+data class BrgUIState(
+    val barangEvent: BarangEvent = BarangEvent(),
+    val isEntryValid: FormErrorStateBrg = FormErrorStateBrg(),
+    val snackBarMessage: String? = null,
+)
+
 data class FormErrorStateBrg(
     val idBrg: String? = null,
     val nama: String? = null,
