@@ -39,6 +39,76 @@ import com.example.ucp2_roomdatabase.ui.viewmodel.PenyediaViewModel
 import com.example.ucp2_roomdatabase.ui.viewmodel.toBarangEntity
 
 
+
+@Composable
+fun ItemDetailBrg(
+    modifier: Modifier = Modifier,
+    barang: Barang
+) {
+    //  warna kartu berdasarkan stok
+    val cardColor = when {
+        barang.stok == "0" -> Color.Gray
+        barang.stok.toIntOrNull() in 1..10 -> Color.Red
+        barang.stok.toIntOrNull() != null && barang.stok.toInt() > 10 -> Color.Green
+        else -> MaterialTheme.colorScheme.primaryContainer
+    }
+
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        colors = cardColors(
+            containerColor = cardColor,
+            contentColor = Color.Black
+        )
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            ComponentDetailBrg(
+                judul = "IdBrg",
+                isinya = barang.idBrg,
+                textColor = Color.Black
+            )
+
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailBrg(
+                judul = "Nama",
+                isinya = barang.nama,
+                textColor = Color.Black
+            )
+
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailBrg(
+                judul = "Deskripsi",
+                isinya = barang.deskripsi,
+                textColor = Color.Black
+            )
+
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailBrg(
+                judul = "Harga",
+                isinya = barang.harga,
+                textColor = Color.Black
+            )
+
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailBrg(
+                judul = "Stok",
+                isinya = barang.stok,
+                textColor = Color.Black
+            )
+
+            Spacer(modifier = Modifier.padding(4.dp))
+            ComponentDetailBrg(
+                judul = "Nama Suplier",
+                isinya = barang.namaSuplier,
+                textColor = Color.Black
+            )
+
+            Spacer(modifier = Modifier.padding(4.dp))
+        }
+    }
+}
+
 //menampilkan label dan isi informasi barang
 @Composable
 fun ComponentDetailBrg(
