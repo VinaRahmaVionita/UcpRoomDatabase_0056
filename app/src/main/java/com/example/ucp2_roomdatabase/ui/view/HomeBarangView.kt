@@ -49,8 +49,48 @@ import com.example.ucp2_roomdatabase.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch
 
 
+@Composable
+fun HomeBarangView(
+    modifier: Modifier = Modifier,
+    viewModel: HomeBarangViewModel = viewModel ( factory = PenyediaViewModel.Factory ),
+    onAddBrg: () -> Unit = { },
+    onDetailClick: (String) -> Unit = { },
+){
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.LightGray),
+        topBar = {
+            TopAppBar(
+                judul = "Home Barang",
+                modifier = modifier,
+                showBackButton = false,
+                onBack = { }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onAddBrg,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(16.dp)
+            ){
+                Icon(
+                    imageVector = Icons.Default.AddCircle,
+                    contentDescription = "Tambah Barang"
+                )
+            }
+        }
+    ) {innerPadding ->
+        val homeUiStateBrg by viewModel.homeUiState.collectAsState()
+        HomeBodyBarangView(
+            homeUiStateBrg = homeUiStateBrg,
+            onClick = { onDetailClick(it) },
+            modifier = modifier.padding(innerPadding)
+        )
+    }
+}
 
-
+//Menangani tampilan berdasarkan kondisi state
 @Composable
 fun HomeBodyBarangView(
     homeUiStateBrg: HomeUiStateBrg,
@@ -106,6 +146,7 @@ fun HomeBodyBarangView(
     }
 }
 
+//menampilkan daftar barang menggunakan komponen CardBarang
 @Composable
 fun ListBarang(
     listBarang: List<Barang>,
@@ -127,6 +168,7 @@ fun ListBarang(
     }
 }
 
+//Menampilkan informasi barang dalam bentuk kartu
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardBarang(
