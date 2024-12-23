@@ -11,6 +11,15 @@ import kotlinx.coroutines.launch
 
 
 
+//data class yang menyimpan berbagai informasi terkait UI
+data class SplUIState(
+    val suplierEvent: SuplierEvent = SuplierEvent(),
+    val isEntryValid: FormErrorStateSpl = FormErrorStateSpl(),
+    val listSuplier: List<Suplier> = listOf(),
+    val snackBarMessage: String? = null,
+    val isLoading: Boolean = false,
+)
+
 //untuk menghandle atau memberikan nilai validasi apakah benar atau salah
 data class FormErrorStateSpl(
     val idSpl: String? = null,
