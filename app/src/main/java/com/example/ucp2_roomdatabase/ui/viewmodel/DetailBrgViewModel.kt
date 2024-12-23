@@ -19,6 +19,20 @@ import kotlinx.coroutines.launch
 
 
 
+//data class yang menggambarkan status UI saat menampilkan detail barang
+data class DetailUiStateBrg(
+    val detailUiEventBrg: BarangEvent = BarangEvent(),
+    val isLoading: Boolean = false,
+    val isError: Boolean = false,
+    val errorMessage: String = " "
+){
+    val isUiEventEmpty: Boolean
+        get() = detailUiEventBrg == BarangEvent()
+
+    val isUiEventNotEmpty: Boolean
+        get() = detailUiEventBrg != BarangEvent()
+}
+
 //mengonversi data Barang ke dalam format yang cocok untuk ditampilkan di UI
 fun Barang.toDetailUiEvent() : BarangEvent {
     return BarangEvent(
