@@ -36,7 +36,60 @@ import com.example.ucp2_roomdatabase.ui.viewmodel.SuplierEvent
 import com.example.ucp2_roomdatabase.ui.viewmodel.SuplierViewModel
 import kotlinx.coroutines.launch
 
+object DestinasiInsertSpl : AlamatNavigasi {
+    override val route: String = "insert_spl"
+}
 
+@Composable
+fun InsertSplView(
+    onBack: () -> Unit,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: SuplierViewModel = viewModel(factory = PenyediaViewModel.Factory)
+){
+    val uiState = viewModel.uiState
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(uiState.snackBarMessage){
+        uiState.snackBarMessage?.let { message ->
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(message)
+                viewModel.resetSnackBarMessage()
+            }
+        }
+    }
+
+    Scaffold (
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ){ padding ->
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(16.dp)
+        ){
+            TopAppBar(
+                onBack = onBack,
+                showBackButton = true,
+                judul = "Tambah Suplier"
+            )
+
+            InsertBodySuplier(
+                uiState = uiState,
+                onValueChange = {updatedEvent ->
+                    viewModel.updateState(updatedEvent)
+                },
+                onClick = {
+                    viewModel.saveSuplier()
+                    onNavigate()
+                }
+            )
+        }
+
+    }
+}
 
 @Composable
 fun InsertBodySuplier(
