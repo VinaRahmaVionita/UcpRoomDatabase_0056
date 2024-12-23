@@ -10,6 +10,17 @@ import com.example.ucp2_roomdatabase.data.entity.Barang
 import kotlinx.coroutines.launch
 
 
+
+//menyimpan input form ke dalam entity
+fun BarangEvent.toBarangEntity(): Barang = Barang (
+    idBrg = idBrg,
+    nama = nama,
+    deskripsi = deskripsi,
+    harga = harga,
+    stok = stok,
+    namaSuplier = namaSuplier
+)
+
 //data class variable yang menyimpan data input form
 data class BarangEvent(
     val idBrg: String = "",
