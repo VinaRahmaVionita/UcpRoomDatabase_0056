@@ -32,6 +32,49 @@ import com.example.ucp2_roomdatabase.ui.viewmodel.toSuplierEntity
 
 
 @Composable
+fun BodyDetailSpl(
+    modifier: Modifier = Modifier,
+    detailUiStateSpl: DetailUiStateSpl = DetailUiStateSpl()
+){
+    when {
+        detailUiStateSpl.isLoading -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "Loading...")
+            }
+        }
+
+        detailUiStateSpl.isUiEventNotEmpty -> {
+            Column(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                ItemDetailSpl(
+                    suplier = detailUiStateSpl.detailUiEventSpl.toSuplierEntity(),
+                    modifier = Modifier
+                )
+            }
+        }
+
+        detailUiStateSpl.isUiEventEmpty -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ){
+                Text(
+                    text = "Data Tidak Ditemukan",
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+    }
+}
+
+//Menampilkan informasi detail suplier menggunakan Card
+@Composable
 fun ItemDetailSpl(
     modifier: Modifier = Modifier,
     suplier: Suplier
