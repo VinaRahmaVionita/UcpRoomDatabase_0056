@@ -16,7 +16,19 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 
 
+//data class yang menggambarkan status UI saat menampilkan detail suplier
+data class DetailUiStateSpl(
+    val detailUiEventSpl: SuplierEvent = SuplierEvent(),
+    val isLoading: Boolean = false,
+    val isError: Boolean = false,
+    val errorMessage: String = " "
+){
+    val isUiEventEmpty: Boolean
+        get() = detailUiEventSpl == SuplierEvent()
 
+    val isUiEventNotEmpty: Boolean
+        get() = detailUiEventSpl != SuplierEvent()
+}
 
 //mengambil data dari objek Suplier ke dalam format yang lebih sesuai untuk ditampilkan di UI
 fun Suplier.toDetailUiEventSpl() : SuplierEvent {
