@@ -38,8 +38,53 @@ import com.example.ucp2_roomdatabase.ui.viewmodel.DetailUiStateBrg
 import com.example.ucp2_roomdatabase.ui.viewmodel.PenyediaViewModel
 import com.example.ucp2_roomdatabase.ui.viewmodel.toBarangEntity
 
+@Composable
+fun DetailBrgView(
+    modifier: Modifier = Modifier,
+    viewModel: DetailBrgViewModel = viewModel(factory = PenyediaViewModel.Factory),
+    onBack: () -> Unit = { },
+    onEditClick: (String) -> Unit = { },
+    onDeleteClick: () -> Unit = { }
+){
+    Scaffold (
+        topBar = {
+            TopAppBar(
+                judul = "Detail Barang",
+                onBack = onBack,
+                showBackButton = true,
+                modifier = modifier
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    onEditClick(viewModel.detailUiStateBrg.value.detailUiEventBrg.idBrg)
+                },
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(16.dp)
+            ){
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Edit Barang"
+                )
+            }
+        }
+    ){ innerPadding ->
+        val detailUiStateBrg by viewModel.detailUiStateBrg.collectAsState()
 
+        BodyDetailBrg(
+            modifier = Modifier.padding(innerPadding),
+            detailUiStateBrg = detailUiStateBrg,
+            onDeleteClick = {
+                viewModel.deleteBrg()
+                onDeleteClick
+            }
+        )
 
+    }
+}
+
+//Menampilkan isi detail barang berdasarkan kondisi data
 @Composable
 fun BodyDetailBrg(
     modifier: Modifier = Modifier,
