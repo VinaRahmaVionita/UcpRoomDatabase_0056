@@ -13,7 +13,39 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 
-
+//untuk mengelola pengambilan semua data barang dari repository, menangani status loading, dan menangani kesalahan yang mungkin terjadi.
+class HomeBarangViewModel(
+    private val repositoryBrg: RepositoryBrg,
+): ViewModel() {
+    val homeUiState: StateFlow<HomeUiStateBrg> = repositoryBrg.getAllBrg()
+        .filterNotNull()
+        .map {
+            HomeUiStateBrg(
+                listBarang = it.toList(),
+                isLoading = false
+            )
+        }
+        .onStart {
+            emit(HomeUiStateBrg(isLoading = true))
+            delay(900)
+        }
+        .catch {
+            emit(
+                HomeUiStateBrg(
+                    isLoading = false,
+                    isError = true,
+                    errorMessage = it.message?: "Terjadi Kesalahan"
+                )
+            )
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = HomeUiStateBrg(
+                isLoading = true
+            )
+        )
+}
 
 //untuk menyimpan status UI terkait daftar barang
 data class HomeUiStateBrg (
