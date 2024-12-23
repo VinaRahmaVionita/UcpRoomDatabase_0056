@@ -51,6 +51,27 @@ import kotlinx.coroutines.launch
 
 
 
+@Composable
+fun ListBarang(
+    listBarang: List<Barang>,
+    modifier: Modifier = Modifier,
+    onClick: (String) -> Unit = { }
+){
+    LazyColumn(
+        modifier = modifier
+    ){
+        items(
+            items = listBarang,
+            itemContent = { brg ->
+                CardBarang(
+                    barang = brg,
+                    onClick = { onClick(brg.idBrg) }
+                )
+            }
+        )
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardBarang(
@@ -58,7 +79,6 @@ fun CardBarang(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = { }
 ) {
-    //Warna kartu diatur berdasarkan kondisi stok
     val cardColor = when {
         barang.stok.toInt() == 0 -> Color.Gray
         barang.stok.toInt() in 1..10 -> Color.Red
