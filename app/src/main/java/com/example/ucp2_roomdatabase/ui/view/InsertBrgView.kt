@@ -47,6 +47,120 @@ import kotlinx.coroutines.launch
 
 
 @Composable
+fun FormBarang(
+    barangEvent: BarangEvent = BarangEvent(),
+    onValueChange: (BarangEvent) -> Unit = {},
+    errorStateBrg: FormErrorStateBrg = FormErrorStateBrg(),
+    modifier: Modifier = Modifier
+) {
+    val listSuplier = remember { mutableStateListOf("Vina", "Rahma", "Vionita") }
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Spacer(modifier = Modifier.height(10.dp))
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = barangEvent.idBrg,
+            onValueChange = {
+                onValueChange(barangEvent.copy(idBrg = it))
+            },
+            label = {
+                Text(text = "ID Barang")
+            },
+            isError = errorStateBrg.idBrg != null,
+            placeholder = { Text("Masukkan ID Barang") },
+        )
+        Text(
+            text = errorStateBrg.idBrg ?: " ",
+            color = Color.Red
+        )
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = barangEvent.nama,
+            onValueChange = {
+                onValueChange(barangEvent.copy(nama = it))
+            },
+            label = {
+                Text(text = "Nama Barang")
+            },
+            isError = errorStateBrg.nama != null,
+            placeholder = { Text("Masukkan Nama Barang") },
+        )
+        Text(
+            text = errorStateBrg.nama ?: " ",
+            color = Color.Red
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = barangEvent.deskripsi,
+            onValueChange = {
+                onValueChange(barangEvent.copy(deskripsi = it))
+            },
+            label = {
+                Text(text = "Deskripsi Barang")
+            },
+            isError = errorStateBrg.deskripsi != null,
+            placeholder = { Text("Masukkan Deskripsi Barang") },
+        )
+        Text(
+            text = errorStateBrg.deskripsi ?: " ",
+            color = Color.Red
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = barangEvent.harga,
+            onValueChange = {
+                onValueChange(barangEvent.copy(harga = it))
+            },
+            label = {
+                Text(text = "Harga Barang")
+            },
+            isError = errorStateBrg.harga != null,
+            placeholder = { Text("Masukkan Harga Barang") },
+        )
+        Text(
+            text = errorStateBrg.harga ?: " ",
+            color = Color.Red
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = barangEvent.stok,
+            onValueChange = {
+                onValueChange(barangEvent.copy(stok = it))
+            },
+            label = {
+                Text(text = "Stok Barang")
+            },
+            isError = errorStateBrg.stok != null,
+            placeholder = { Text("Masukkan Stok Barang") },
+        )
+        Text(
+            text = errorStateBrg.stok ?: " ",
+            color = Color.Red
+        )
+
+        DropdownNama(
+            label = "Nama Supplier",
+            options = listSuplier,
+            selectedOption = barangEvent.namaSuplier,
+            onOptionSelected = {
+                    selectedSuplier -> onValueChange(barangEvent.copy(namaSuplier = selectedSuplier))
+            },
+            isError = errorStateBrg.namaSuplier != null,
+            errorMessage = errorStateBrg.namaSuplier
+        )
+    }
+}
+
+@Composable
 fun DropdownNama(
     label: String,
     options: List<String>,
