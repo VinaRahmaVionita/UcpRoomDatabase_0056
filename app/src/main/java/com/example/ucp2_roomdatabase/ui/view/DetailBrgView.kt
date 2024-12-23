@@ -41,6 +41,72 @@ import com.example.ucp2_roomdatabase.ui.viewmodel.toBarangEntity
 
 
 @Composable
+fun BodyDetailBrg(
+    modifier: Modifier = Modifier,
+    detailUiStateBrg: DetailUiStateBrg = DetailUiStateBrg(),
+    onDeleteClick: () -> Unit = { }
+){
+    var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
+    when {
+        detailUiStateBrg.isLoading -> {
+            Box(
+                modifier = modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "Loading...")
+            }
+        }
+
+        detailUiStateBrg.isUiEventNotEmpty -> {
+            Column (
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                ItemDetailBrg(
+                    barang = detailUiStateBrg.detailUiEventBrg.toBarangEntity(),
+                    modifier = Modifier
+                )
+                Spacer(modifier = Modifier.padding(8.dp))
+                Button(
+                    onClick = {
+                        deleteConfirmationRequired = true
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = "Delete")
+                }
+                if (deleteConfirmationRequired) {
+                    DeleteConfirmationDialog(
+                        onDeleteConfirm = {
+                            deleteConfirmationRequired = false
+                            onDeleteClick()
+                        },
+                        onDeleteCancel = {
+                            deleteConfirmationRequired = false
+                        },
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
+            }
+        }
+
+        detailUiStateBrg.isUiEventEmpty -> {
+            Box(
+                modifier = modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ){
+                Text(
+                    text = "Data barang tidak ditemukan",
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+    }
+}
+
+//Menampilkan informasi barang dalam bentuk Card
+@Composable
 fun ItemDetailBrg(
     modifier: Modifier = Modifier,
     barang: Barang
