@@ -10,6 +10,19 @@ import com.example.ucp2_roomdatabase.data.entity.Barang
 import kotlinx.coroutines.launch
 
 
+data class FormErrorStateBrg(
+    val idBrg: String? = null,
+    val nama: String? = null,
+    val deskripsi: String? = null,
+    val harga: String? = null,
+    val stok: String? = null,
+    val namaSuplier: String? = null
+){
+    fun isValid(): Boolean {
+        return idBrg == null && nama == null && deskripsi == null &&
+                harga == null && stok == null && namaSuplier == null
+    }
+}
 
 //menyimpan input form ke dalam entity
 fun BarangEvent.toBarangEntity(): Barang = Barang (
