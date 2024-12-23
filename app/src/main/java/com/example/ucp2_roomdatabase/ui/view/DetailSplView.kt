@@ -29,8 +29,31 @@ import com.example.ucp2_roomdatabase.ui.viewmodel.PenyediaViewModel
 import com.example.ucp2_roomdatabase.ui.viewmodel.toSuplierEntity
 
 
+@Composable
+fun DetailSplView(
+    modifier: Modifier = Modifier,
+    viewModel: DetailSplViewModel = viewModel(factory = PenyediaViewModel.Factory),
+    onBack: () -> Unit = { },
+){
+    Scaffold (
+        topBar = {
+            TopAppBar(
+                onBack = onBack,
+                showBackButton = true,
+                judul = "Detail Suplier",
+                modifier = modifier
+            )
+        },
+    ){ innerPadding ->
+        val detailUiStateSpl by viewModel.detailUiStateSpl.collectAsState()
+        BodyDetailSpl(
+            modifier = modifier.padding(innerPadding),
+            detailUiStateSpl = detailUiStateSpl
+        )
+    }
+}
 
-
+//menampilkan UI berdasarkan kondisi data(data tersedia/data kosong)
 @Composable
 fun BodyDetailSpl(
     modifier: Modifier = Modifier,
