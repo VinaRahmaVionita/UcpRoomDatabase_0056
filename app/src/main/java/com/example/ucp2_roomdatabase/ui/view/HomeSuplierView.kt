@@ -45,7 +45,46 @@ import com.example.ucp2_roomdatabase.ui.viewmodel.HomeUiStateSpl
 import com.example.ucp2_roomdatabase.ui.viewmodel.PenyediaViewModel
 import kotlinx.coroutines.launch
 
-
+@Composable
+fun HomeSuplierView(
+    viewModel: HomeSuplierViewModel = viewModel(factory = PenyediaViewModel.Factory),
+    modifier: Modifier = Modifier,
+    onAddSpl: () -> Unit = { },
+    onBack: () -> Unit = { },
+    onDetailClick: (String) -> Unit = { },
+) {
+    Scaffold(
+        modifier = Modifier
+            .fillMaxSize(),
+        topBar = {
+            TopAppBar(
+                onBack = onBack,
+                showBackButton = true,
+                judul = "Home Suplier",
+                modifier = modifier
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = onAddSpl,
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Tambah Suplier"
+                )
+            }
+        }
+    ) { innerPadding ->
+        val homeUiStateSpl by viewModel.homeUiState.collectAsState()
+        HomeBodySuplierView(
+            homeUiStateSpl = homeUiStateSpl,
+            onClick = { onDetailClick(it) },
+            modifier = modifier.padding(innerPadding)
+        )
+    }
+}
 
 @Composable
 fun HomeBodySuplierView(
