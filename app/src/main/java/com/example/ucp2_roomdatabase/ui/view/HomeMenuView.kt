@@ -35,5 +35,88 @@ fun HomeMenuView(
     onBarangClick: () -> Unit,
     onSuplierClick: () -> Unit
 ) {
+    Scaffold(
+        topBar = {
+            TopAppBarHomeMenu()
+        },
+        content = { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        // Gradasi warna vertikal dari merah ke hitam
+                        brush = Brush.verticalGradient(
+                            colors = listOf(Color.Red, Color.Black),
+                            startY = 0f,
+                            endY = Float.POSITIVE_INFINITY
+                        )
+                    )
+                    .padding(paddingValues)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                //tombol manage barang
+                Button(
+                    onClick = onBarangClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Yellow,
+                        contentColor = Color.Black
+                    ),
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(0.8f)
+                        .clip(RoundedCornerShape(12.dp)) // Rounded corners
+                        .shadow(8.dp, RoundedCornerShape(12.dp)) // Add shadow for elevation
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ShoppingCart,
+                            contentDescription = "Manage Barang",
+                            modifier = Modifier.padding(end = 8.dp),
+                            tint = Color.Black
+                        )
+                        Text(
+                            text = "Manage Barang",
+                            fontSize = 25.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(16.dp))
 
+                //button manage suplier
+                Button(
+                    onClick = onSuplierClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Yellow,
+                        contentColor = Color.Black
+                    ),
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(0.8f)
+                        .clip(RoundedCornerShape(12.dp)) // sisi bawah yg melingkar
+                        .shadow(20.dp, RoundedCornerShape(15.dp)) // Add shadow for elevation
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = "Manage Supplier",
+                            modifier = Modifier.padding(end = 8.dp),
+                            tint = Color.Black
+                        )
+                        Text(
+                            text = "Manage Suplier",
+                            fontSize = 25.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+            }
+        }
+    )
 }
