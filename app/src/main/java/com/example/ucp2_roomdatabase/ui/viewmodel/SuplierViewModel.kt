@@ -11,6 +11,15 @@ import kotlinx.coroutines.launch
 
 
 
+//menyimpan input form ke dalam entity
+fun SuplierEvent.toSuplierEntity(): Suplier = Suplier (
+    idSpl = idSpl,
+    nama = nama,
+    kontak = kontak,
+    alamat = alamat
+)
+
+
 //data class variable yang menyimpan data input form
 data class SuplierEvent(
     val idSpl: String = "",
