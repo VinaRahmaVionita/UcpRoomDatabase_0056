@@ -39,6 +39,35 @@ import com.example.ucp2_roomdatabase.ui.viewmodel.PenyediaViewModel
 import com.example.ucp2_roomdatabase.ui.viewmodel.toBarangEntity
 
 
+//menampilkan label dan isi informasi barang
+@Composable
+fun ComponentDetailBrg(
+    modifier: Modifier = Modifier,
+    judul: String,
+    isinya: String,
+    textColor: Color = Color.Black
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(
+            text = "$judul : ",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = textColor
+        )
+        Text(
+            text = isinya,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = textColor
+        )
+    }
+}
+
+
+//Dialog konfirmasi saat pengguna ingin menghapus barang
 @Composable
 private fun DeleteConfirmationDialog(
     onDeleteConfirm: () -> Unit,
@@ -53,14 +82,14 @@ private fun DeleteConfirmationDialog(
             TextButton(
                 onClick = onDeleteCancel
             ) {
-                Text(text = "Cancel")
+                Text(text = "Cancel") //Membatalkan penghapusan.
             }
         },
         confirmButton = {
             TextButton(
                 onClick = onDeleteConfirm
             ) {
-                Text(text = "Yes")
+                Text(text = "Yes") //Mengonfirmasi penghapusan
             }
         }
     )
