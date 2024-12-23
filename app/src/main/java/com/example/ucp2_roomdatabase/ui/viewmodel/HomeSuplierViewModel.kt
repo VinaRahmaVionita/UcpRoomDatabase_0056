@@ -15,7 +15,39 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 
 
-
+//untuk mengelola pengambilan semua data suplier dari repository, menangani status loading, dan menangani kesalahan yang mungkin terjadi.
+class HomeSuplierViewModel(
+    private val repositorySpl: RepositorySpl,
+): ViewModel() {
+    val homeUiState: StateFlow<HomeUiStateSpl> = repositorySpl.getAllSpl()
+        .filterNotNull()
+        .map {
+            HomeUiStateSpl(
+                listSuplier = it.toList(),
+                isLoading = false
+            )
+        }
+        .onStart {
+            emit(HomeUiStateSpl(isLoading = true))
+            delay(900)
+        }
+        .catch {
+            emit(
+                HomeUiStateSpl(
+                    isLoading = false,
+                    isError = true,
+                    errorMessage = it.message?: "Terjadi Kesalahan"
+                )
+            )
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = HomeUiStateSpl(
+                isLoading = true
+            )
+        )
+}
 
 //untuk menyimpan status UI terkait daftar suplier
 data class HomeUiStateSpl (
